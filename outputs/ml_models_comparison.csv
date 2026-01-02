@@ -1,0 +1,4 @@
+Model,RMSE,MAE
+Linear Regression,87.66,68.68
+Random Forest,89.3,69.63
+Stacking,87.66,68.68

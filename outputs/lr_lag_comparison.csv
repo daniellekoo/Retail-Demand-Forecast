@@ -1,0 +1,3 @@
+Version,RMSE,MAE
+LR (No Lag),89.2,69.15
+LR (With Lag),87.95,68.45

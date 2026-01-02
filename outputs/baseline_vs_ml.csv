@@ -1,0 +1,4 @@
+Model,RMSE,MAE
+Baseline (Demand Forecast),10.05,8.36
+LightGBM (Daily),96.84,73.48
+LightGBM (Weekly),272.92,206.93
