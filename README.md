@@ -80,7 +80,6 @@ Interestingly, promotion- or season-related variables had relatively smaller imp
 - Python was used for model diagnostics and feature importance plots.
 - Tableau dashboards were created to compare:
   - Baseline vs ML performance
-  - Daily vs Weekly modeling
   - Feature importance rankings
 
 ---
