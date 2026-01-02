@@ -99,5 +99,7 @@ Interestingly, promotion- or season-related variables had relatively smaller imp
 - Tableau
 - GitHub
 
+---
+
 ## How to Run
 pip install -r requirements.txt
