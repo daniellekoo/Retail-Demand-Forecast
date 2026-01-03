@@ -1,55 +1,43 @@
-# Key Insights & Takeaways
+# Key Insights
 
-This document summarizes the key insights derived from comparing baseline forecasts and machine learning models in this project.  
-The goal was not only to improve predictive performance, but also to understand *why* certain approaches worked better than others.
+This section summarizes what was learned from comparing baseline forecasts and machine learning models in this project.  
+Rather than focusing only on model performance, the goal was to understand why certain approaches worked better than others.
 
----
+## Why the Baseline Performed Better
 
-## 1. Why the Baseline Model Outperformed ML Models
+The provided Demand Forecast baseline clearly outperformed all machine learning models across RMSE, MAE, and RMSLE.
 
-The provided **Demand Forecast** baseline significantly outperformed all machine learning models across RMSE, MAE, and RMSLE.
+This result suggests that the baseline forecast was not a simple statistical estimate.  
+It was likely generated using additional business logic or external information that was not included in the dataset used for modeling.
 
-This result suggests that the baseline forecast was not a naive statistical estimate, but rather a **production-grade signal** likely incorporating additional information that was not present in the dataset used for modeling.  
-Examples of such information may include historical demand smoothing, domain-specific heuristics, supply chain constraints, or external business signals.
+Possible examples include demand smoothing based on long-term historical trends, operational constraints, or internal forecasting rules used in real production systems.  
+Because the machine learning models only had access to the limited features available in the dataset, they were unable to replicate the level of refinement embedded in the baseline.
 
-In other words, the baseline appears to represent a **downstream, business-optimized forecast**, while the ML models were trained only on the limited features available in the dataset.  
-As a result, the baseline had access to richer and more structured information, leading to superior performance.
+In practice, this means the baseline already represented a well-optimized business forecast rather than a naive benchmark.
 
----
+## Why Machine Learning Models Did Not Improve Performance
 
-## 2. Why Machine Learning Models Did Not Perform as Well
+Several machine learning models were tested, including Linear Regression, Random Forest, and LightGBM.  
+Despite feature engineering efforts such as lag variables, rolling statistics, and weekly aggregation, the performance improvements were limited.
 
-Despite experimenting with multiple models (Linear Regression, Random Forest, LightGBM), performance improvements were limited.
+One key reason was the nature of the dataset itself.  
+Most features were operational variables such as inventory level, price, discounts, and calendar information.  
+While these features are relevant, they do not fully explain demand behavior on their own.
 
-Several factors contributed to this outcome:
+Feature importance analysis consistently showed that Inventory Level dominated the predictions.  
+This indicates that other features provided relatively weak additional signal, making it difficult for the models to significantly reduce prediction error.
 
-- **Feature limitations**: The dataset mainly contained operational variables (inventory level, price, discounts, calendar features) but lacked high-impact demand drivers such as promotions strategy, marketing spend, or macro-level signals.
-- **Target leakage risk avoidance**: Care was taken to avoid using future information, which limited the usable feature set and reduced apparent performance gains.
-- **High dominance of inventory-related signals**: Feature importance analysis showed that *Inventory Level* overwhelmingly dominated predictions, making it difficult for other features to meaningfully improve accuracy.
-- **Aggregation trade-offs**: Weekly aggregation reduced noise and improved stability in some cases, but it also removed short-term variability that the baseline forecast may already capture effectively.
+Weekly aggregation helped stabilize the data, but it also removed short-term variation that the baseline forecast may already capture more effectively.  
+As a result, model complexity alone could not compensate for the lack of richer demand-driving information.
 
-Overall, the ML models were constrained by the **information ceiling of the dataset**, rather than model capacity or tuning choices.
+## What This Project Demonstrated
 
----
+This project demonstrated that stronger models do not automatically lead to better results.
 
-## 3. What This Project Demonstrated and What Was Learned
+In real-world settings, existing baselines often perform well because they incorporate domain knowledge and historical adjustments that are not explicitly visible in the data.  
+Machine learning models are limited by the information they are given, and when that information is incomplete, performance gains are naturally capped.
 
-This project highlighted an important real-world lesson:
+The most important takeaway from this project is that evaluating and understanding baselines is just as important as building new models.  
+Knowing when machine learning adds value and when it does not is a critical skill in applied data analysis.
 
-> **A strong baseline can outperform sophisticated ML models when it embeds domain knowledge and additional signals that data scientists do not have access to.**
-
-Key takeaways include:
-
-- Model performance should always be evaluated **relative to baselines**, not in isolation.
-- Feature engineering and data availability often matter more than model complexity.
-- ML is not guaranteed to outperform existing systems, especially when baselines are production-optimized.
-- Understanding *why* a model fails to outperform a baseline is as valuable as improving metrics.
-
-From a practical standpoint, this project reinforced the importance of combining **business context, data understanding, and modeling discipline** rather than relying solely on algorithmic complexity.
-
----
-
-## Final Reflection
-
-Rather than treating the baseline as a competitor to beat, this project reframed it as a **benchmark that reveals the limits of the available data**.  
-The analysis demonstrates analytical maturity by recognizing when ML adds value — and when it does not — which is a critical skill in applied data science.
+Rather than viewing the baseline as something that failed to be beaten, this project treated it as a reference point that revealed the limits of the available data and the importance of business context.
